@@ -1,0 +1,18 @@
+# Problem: Product of Array Except Self
+# Day: 24
+# My Own Logic
+# Time Complexity: O(n^2)
+
+def exself(n):
+    f = []
+    for i in range(len(n)):
+        temp = n[i]
+        del n[i]
+        p = 1
+        for num in n:
+            p *= num
+        n.insert(i, temp)
+        f.append(p)
+    return f
+n = list(map(int, input("enter numbers: ").split()))
+print(exself(n))
