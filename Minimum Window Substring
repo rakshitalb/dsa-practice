@@ -1,0 +1,63 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+
+        # What characters and how many we need
+        need = {}
+
+        for ch in t:
+            need[ch] = need.get(ch, 0) + 1
+
+        # Characters currently inside our window
+        window = {}
+
+        # Left side of the window
+        left = 0
+
+        # Number of required character types currently satisfied
+        have = 0
+
+        # Total number of different characters required
+        need_count = len(need)
+
+        # Smallest window found so far
+        min_len = float("inf")
+        ans = ""
+
+        # Expand window using right
+        for right in range(len(s)):
+
+            ch = s[right]
+
+            # Only track characters that are required
+            if ch in need:
+                window[ch] = window.get(ch, 0) + 1
+
+                # Requirement for this character is now satisfied
+                if window[ch] == need[ch]:
+                    have += 1
+
+            # Window contains everything required
+            while have == need_count:
+
+                # Current window length
+                window_len = right - left + 1
+
+                # Save if this is the smallest window
+                if window_len < min_len:
+                    min_len = window_len
+                    ans = s[left:right + 1]
+
+                # Character leaving the window
+                left_ch = s[left]
+
+                if left_ch in need:
+                    window[left_ch] -= 1
+
+                    # We no longer have enough of this character
+                    if window[left_ch] < need[left_ch]:
+                        have -= 1
+
+                # Shrink from the left
+                left += 1
+
+        return ans
