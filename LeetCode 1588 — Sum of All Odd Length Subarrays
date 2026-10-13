@@ -1,0 +1,18 @@
+class Solution:
+    def sumOddLengthSubarrays(self, arr: list[int]) -> int:
+        prefix = [0]
+
+        for num in arr:
+            prefix.append(prefix[-1] + num)
+
+        ans = 0
+
+        for i in range(len(arr)):
+            for j in range(i, len(arr)):
+                length = j - i + 1
+
+                if length % 2 == 1:
+                    subarray_sum = prefix[j + 1] - prefix[i]
+                    ans += subarray_sum
+
+        return ans
