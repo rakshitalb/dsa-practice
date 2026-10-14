@@ -1,0 +1,24 @@
+```python
+class Solution:
+    def getAverages(self, nums: list[int], k: int) -> list[int]:
+        n = len(nums)
+        window = 2 * k + 1
+        ans = [-1] * n
+
+        if window > n:
+            return ans
+
+        prefix = [0]
+
+        for num in nums:
+            prefix.append(prefix[-1] + num)
+
+        for i in range(k, n - k):
+            left = i - k
+            right = i + k
+
+            total = prefix[right + 1] - prefix[left]
+            ans[i] = total // window
+
+        return ans
+```
