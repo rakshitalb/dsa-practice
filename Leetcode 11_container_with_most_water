@@ -1,0 +1,25 @@
+# LeetCode 11: Container With Most Water
+# Pattern: Two Pointers
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+
+class Solution:
+    def maxArea(self, height: list[int]) -> int:
+        l = 0
+        r = len(height) - 1
+        a = 0
+        h = 0
+        m = 0
+
+        while l < r:
+            a = r - l
+            h = min(height[l], height[r])
+            aa = a * h
+            m = max(m, aa)
+
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
+
+        return m
