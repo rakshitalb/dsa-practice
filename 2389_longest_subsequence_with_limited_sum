@@ -1,0 +1,26 @@
+
+class Solution:
+    def answerQueries(self, nums: list[int], queries: list[int]) -> list[int]:
+        nums.sort()
+
+        prefix = []
+        total = 0
+
+        for num in nums:
+            total += num
+            prefix.append(total)
+
+        result = []
+
+        for q in queries:
+            count = 0
+
+            for s in prefix:
+                if s <= q:
+                    count += 1
+                else:
+                    break
+
+            result.append(count)
+
+        return result
