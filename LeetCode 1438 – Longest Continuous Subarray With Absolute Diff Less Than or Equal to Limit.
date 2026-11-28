@@ -1,0 +1,35 @@
+from collections import deque
+
+class Solution:
+    def longestSubarray(self, nums: list[int], limit: int) -> int:
+        max_d = deque()
+        min_d = deque()
+
+        l = 0
+        ans = 0
+
+        for r in range(len(nums)):
+
+            # Maintain decreasing order for maximum deque
+            while max_d and nums[max_d[-1]] < nums[r]:
+                max_d.pop()
+            max_d.append(r)
+
+            # Maintain increasing order for minimum deque
+            while min_d and nums[min_d[-1]] > nums[r]:
+                min_d.pop()
+            min_d.append(r)
+
+            # Shrink window if difference exceeds limit
+            while nums[max_d[0]] - nums[min_d[0]] > limit:
+                if max_d[0] == l:
+                    max_d.popleft()
+
+                if min_d[0] == l:
+                    min_d.popleft()
+
+                l += 1
+
+            ans = max(ans, r - l + 1)
+
+        return ans
